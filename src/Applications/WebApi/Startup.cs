@@ -19,7 +19,10 @@ namespace WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureRedis(Configuration);
+            services.ConfigureRedis(options => 
+            {
+                Configuration.GetSection("Redis").Bind(options);
+            });
 
             services.AddHealthChecks();
             services.AddControllers();
@@ -57,3 +60,4 @@ namespace WebApi
         }
     }
 }
+

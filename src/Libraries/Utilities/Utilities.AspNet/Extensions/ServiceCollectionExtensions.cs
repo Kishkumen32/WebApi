@@ -9,13 +9,13 @@ namespace Utilities.AspNet.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureRedis(this IServiceCollection services, Action<Redis> setup)
         {
             if (services == null) { throw new ArgumentNullException(nameof(services)); }
-            if (configuration == null) { throw new ArgumentNullException(nameof(configuration)); }
 
             var redisOptions = new Redis();
-            configuration.GetSection("Redis").Bind(redisOptions);
+
+            setup(redisOptions);
 
             var connectionString = redisOptions.ConnectionString;
 
